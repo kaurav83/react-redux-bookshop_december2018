@@ -1,6 +1,8 @@
 import {
     SET_BOOKS,
-    SET_IS_READY
+    SET_IS_READY,
+    REMOVE_BOOK_TO_BUY,
+    ADD_BOOK_TO_BUY
 } from './actionTypes';
 
 export function textNode(textDop) {

@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+body {
+  margin-top: 20px;
+}
+
+.vertical.menu {
+  margin-bottom: 50px;
+}
 
 
 /* .App-logo {

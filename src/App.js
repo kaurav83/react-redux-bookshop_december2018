@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 import { textNode } from './actions/books';
-import Demo from './components/Demo';
+
+import MenuBar from './components/MenuBar';
+import BookCard from './components/BookCard';
+import { Container } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import axios from 'axios';
 
 class App extends Component {
@@ -12,29 +16,37 @@ class App extends Component {
   }
   render() {
     console.log(this.props, 'AFTER ')
-    const {books, isLoading} = this.props;
+    const { books, isLoading } = this.props;
     return (
-      <ul className="App">
-        {
-          isLoading ? books.map((book) => {
-            return (
-              <li key={book.id}>{book.author}</li>
-            )
-          })
-          :
-          <div>
-            <img 
-              src="https://cdn-images-1.medium.com/max/1000/1*inYwyq37FdvRPLRphTqwBA.gif" 
-              alt="preload"
-            />
-          </div>
-        }
-      </ul>
+      <React.Fragment>
+        <Container>
+          <MenuBar bookTitle="temporarry" />
+          <Card.Group>
+            {
+              isLoading ? books.map((book) => {
+                return (
+                  <BookCard
+                    key={book.id}
+                    {...book}
+                  />
+                )
+              })
+                :
+                <div>
+                  <img
+                    src="https://cdn-images-1.medium.com/max/1000/1*inYwyq37FdvRPLRphTqwBA.gif"
+                    alt="preload"
+                  />
+                </div>
+            }
+          </Card.Group>
+        </Container>
+      </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = ({booksReducer}) => {
+const mapStateToProps = ({ booksReducer }) => {
   return {
     books: booksReducer.items,
     isLoading: booksReducer.isLoading
