@@ -11,18 +11,23 @@ class App extends Component {
       .then(response => this.props.setBooks(response.data));
   }
   render() {
-    console.log(this.props, 'AFTER RENDER')
-    const {books} = this.props;
+    console.log(this.props, 'AFTER ')
+    const {books, isLoading} = this.props;
     return (
       <ul className="App">
         {
-          books ? books.map((book) => {
+          isLoading ? books.map((book) => {
             return (
               <li key={book.id}>{book.author}</li>
             )
           })
           :
-          <div><img src="https://cdn-images-1.medium.com/max/1000/1*inYwyq37FdvRPLRphTqwBA.gif" alt="preload"/></div>
+          <div>
+            <img 
+              src="https://cdn-images-1.medium.com/max/1000/1*inYwyq37FdvRPLRphTqwBA.gif" 
+              alt="preload"
+            />
+          </div>
         }
       </ul>
     );
@@ -32,6 +37,7 @@ class App extends Component {
 const mapStateToProps = ({booksReducer}) => {
   return {
     books: booksReducer.items,
+    isLoading: booksReducer.isLoading
   }
 }
 
