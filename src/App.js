@@ -1,14 +1,44 @@
 import React, { Component } from 'react';
 import './App.css';
+import { connect } from 'react-redux';
+import { textNode } from './actions/books';
+import Demo from './components/Demo';
+import axios from 'axios';
 
 class App extends Component {
+  componentDidMount() {
+    axios.get('/books.json')
+      .then(response => this.props.setBooks(response.data));
+  }
   render() {
+    console.log(this.props, 'AFTER RENDER')
+    const {books} = this.props;
     return (
-      <div className="App">
-        Ghbt[fkb]
-      </div>
+      <ul className="App">
+        {
+          books ? books.map((book) => {
+            return (
+              <li key={book.id}>{book.author}</li>
+            )
+          })
+          :
+          null
+        }
+      </ul>
     );
   }
 }
 
-export default App;
+const mapStateToProps = ({booksReducer}) => {
+  return {
+    books: booksReducer.items
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setBooks: books => dispatch(textNode(books))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
