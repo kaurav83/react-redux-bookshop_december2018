@@ -2,25 +2,49 @@ import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 import { textNode } from './actions/books';
+import {setFilter} from './actions/filter';
 
 import MenuBar from './components/MenuBar';
 import BookCard from './components/BookCard';
+import Filter from './components/Filter';
 import { Container } from 'semantic-ui-react';
 import { Card } from 'semantic-ui-react';
 import axios from 'axios';
+import orderBy from 'lodash/orderBy';
+
+const sortBy = (books, filterBy) => {
+    switch(filterBy) {
+      case 'all':
+        return books;
+      case 'price_high':
+        return orderBy(books, 'price', 'desc');
+      case 'price_low':
+        return orderBy(books, 'price', 'asc');
+      case 'author':
+        return orderBy(books, 'author', 'desc');
+      default: 
+        return;
+    }
+}
 
 class App extends Component {
   componentDidMount() {
     axios.get('/books.json')
       .then(response => this.props.setBooks(response.data));
   }
+
+  
   render() {
-    console.log(this.props, 'AFTER ')
-    const { books, isLoading } = this.props;
+    console.log(this.props, 'FILTER BY')
+    const { books, isLoading, setFilter, filterBy } = this.props;
     return (
       <React.Fragment>
         <Container>
           <MenuBar bookTitle="temporarry" />
+          <Filter 
+            setFilter={setFilter}
+            filterBy={filterBy}
+          />
           <Card.Group>
             {
               isLoading ? books.map((book) => {
@@ -40,6 +64,7 @@ class App extends Component {
                 </div>
             }
           </Card.Group>
+
         </Container>
       </React.Fragment>
     );
@@ -48,14 +73,16 @@ class App extends Component {
 
 const mapStateToProps = ({ booksReducer }) => {
   return {
-    books: booksReducer.items,
-    isLoading: booksReducer.isLoading
+    books: sortBy(booksReducer.items, booksReducer.filterBy),
+    isLoading: booksReducer.isLoading,
+    filterBy: booksReducer.filterBy
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    setBooks: books => dispatch(textNode(books))
+    setBooks: books => dispatch(textNode(books)),
+    setFilter: filters => dispatch(setFilter(filters))
   }
 }
 
