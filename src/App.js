@@ -22,7 +22,7 @@ class App extends Component {
             )
           })
           :
-          null
+          <div><img src="https://cdn-images-1.medium.com/max/1000/1*inYwyq37FdvRPLRphTqwBA.gif" alt="preload"/></div>
         }
       </ul>
     );
@@ -31,7 +31,7 @@ class App extends Component {
 
 const mapStateToProps = ({booksReducer}) => {
   return {
-    books: booksReducer.items
+    books: booksReducer.items,
   }
 }
 
