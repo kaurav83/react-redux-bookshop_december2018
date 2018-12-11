@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input, Menu } from 'semantic-ui-react';
+import { setSearchQuery } from '../actions/filter';
 
 class Filter extends React.Component {
     handleItemClick(e, { name }) {
@@ -7,7 +8,7 @@ class Filter extends React.Component {
         setFilter(name);
     }
     render() {
-        const {filterBy} = this.props;
+        const {filterBy, searchQuery, setSearchQuery} = this.props;
         return (
             <React.Fragment>
                 <h1>Фильтры</h1>
@@ -41,6 +42,14 @@ class Filter extends React.Component {
                     active={filterBy === 'author'}
                     onClick={this.handleItemClick.bind(this)}
                 >Автор</Menu.Item>
+                <Menu.Item>
+                    <Input 
+                        placeholder="Введите запрос..."
+                        icon="search"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    ></Input>
+                </Menu.Item>
             </Menu>
             </React.Fragment>
         );

@@ -1,13 +1,15 @@
 import {
     SET_BOOKS,
     SET_IS_READY,
-    SET_FILTER
+    SET_FILTER,
+    SET_SEARCH_QUERY
 } from '../actions/actionTypes';
 
 const initialState = {
     items: null,
     isLoading: false,
-    filterBy: 'all'
+    filterBy: 'all',
+    searchQuery: ''
 }
 
 export default function booksReducer(state = initialState, action) {
@@ -22,6 +24,11 @@ export default function booksReducer(state = initialState, action) {
             return {
                 ...state,
                 filterBy: action.payload
+            }
+        case SET_SEARCH_QUERY:
+            return {
+                ...state,
+                searchQuery: action.payload
             }
         case SET_IS_READY:
             return {

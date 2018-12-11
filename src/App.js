@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 import { textNode } from './actions/books';
-import {setFilter} from './actions/filter';
+import {setFilter, setSearchQuery} from './actions/filter';
 
 import MenuBar from './components/MenuBar';
 import BookCard from './components/BookCard';
@@ -36,7 +36,7 @@ class App extends Component {
   
   render() {
     console.log(this.props, 'FILTER BY')
-    const { books, isLoading, setFilter, filterBy } = this.props;
+    const { books, isLoading, setFilter, filterBy, setSearchQuery } = this.props;
     return (
       <React.Fragment>
         <Container>
@@ -44,6 +44,7 @@ class App extends Component {
           <Filter 
             setFilter={setFilter}
             filterBy={filterBy}
+            setSearchQuery={setSearchQuery}
           />
           <Card.Group>
             {
@@ -82,7 +83,8 @@ const mapStateToProps = ({ booksReducer }) => {
 const mapDispatchToProps = dispatch => {
   return {
     setBooks: books => dispatch(textNode(books)),
-    setFilter: filters => dispatch(setFilter(filters))
+    setFilter: filters => dispatch(setFilter(filters)),
+    setSearchQuery: value => dispatch(setSearchQuery(value))
   }
 }
 
